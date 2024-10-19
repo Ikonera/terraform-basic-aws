@@ -4,23 +4,21 @@ resource "aws_vpc" "my_vpc" {
 }
 
 resource "aws_subnet" "public_subnet" {
-  vpc_id            = aws_vpc.my_vpc.id
   count             = var.public_subnet_count
+  vpc_id            = aws_vpc.my_vpc.id
   cidr_block        = element(var.public_subnets, count.index)
   availability_zone = element(var.availability_zones, count.index)
   tags = {
-    Name    = "Public subnet ${count.index + 1}"
-    Project = "Athoria"
+    Name = "Public subnet ${count.index + 1}"
   }
 }
 
 resource "aws_subnet" "private_subnet" {
-  vpc_id            = aws_vpc.my_vpc.id
   count             = var.private_subnet_count
+  vpc_id            = aws_vpc.my_vpc.id
   cidr_block        = element(var.private_subnets, count.index)
   availability_zone = element(var.availability_zones, count.index)
   tags = {
-    Name    = "Private subnet ${count.index + 1}"
-    Project = "Athoria"
+    Name = "Private subnet ${count.index + 1}"
   }
 }

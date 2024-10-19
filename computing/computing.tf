@@ -7,7 +7,6 @@ resource "aws_launch_template" "launch_template" {
   tag_specifications {
     resource_type = "instance"
     tags = {
-      Project   = "Athoria"
       ManagedBy = "ASG"
     }
   }
@@ -44,7 +43,6 @@ resource "aws_autoscaling_attachment" "https_autoscaling_attachment" {
 
 data "aws_instances" "instance_ids" {
   instance_tags = {
-    Project   = "Athoria"
     ManagedBy = "ASG"
   }
 }

@@ -1,9 +1,7 @@
 resource "aws_security_group" "lb_security_group" {
   vpc_id = var.vpc_id
-
   tags = {
-    Name    = "Load Balancer Security Group"
-    Project = "Athoria"
+    Name = "Load Balancer Security Group"
   }
 }
 
@@ -26,20 +24,18 @@ resource "aws_security_group_rule" "lb_https_ingress" {
 }
 
 resource "aws_security_group_rule" "lb_instance_egress" {
-	security_group_id = aws_security_group.lb_security_group.id
-	type              = "egress"
-	from_port         = 0
-	to_port           = 0
-	protocol          = "-1"
-	cidr_blocks       = ["0.0.0.0/0"]
+  security_group_id = aws_security_group.lb_security_group.id
+  type              = "egress"
+  from_port         = 0
+  to_port           = 0
+  protocol          = "-1"
+  cidr_blocks       = ["0.0.0.0/0"]
 }
 
 resource "aws_security_group" "instance_security_group" {
   vpc_id = var.vpc_id
-
   tags = {
-    Name    = "Instance Security Group"
-    Project = "Athoria"
+    Name = "Instance Security Group"
   }
 }
 
@@ -72,59 +68,46 @@ resource "aws_security_group_rule" "instance_traffic_egress" {
 
 resource "aws_internet_gateway" "my_igw" {
   vpc_id = var.vpc_id
-
   tags = {
-    Name    = "My Internet Gateway"
-    Project = "Athoria"
+    Name = "My Internet Gateway"
   }
 }
 
 resource "aws_eip" "my_eip" {
   depends_on = [aws_internet_gateway.my_igw]
-
   tags = {
-    Name    = "My EIP"
-    Project = "Athoria"
+    Name = "My EIP"
   }
 }
 
 resource "aws_nat_gateway" "my_nat" {
   allocation_id = aws_eip.my_eip.id
   subnet_id     = var.public_subnet_ids[0]
-
   tags = {
-    Name    = "My NAT Gateway"
-    Project = "Athoria"
+    Name = "My NAT Gateway"
   }
-
   depends_on = [aws_internet_gateway.my_igw]
 }
 
 resource "aws_route_table" "public_route_table" {
   vpc_id = var.vpc_id
-
   route {
     cidr_block = "0.0.0.0/0"
     gateway_id = aws_internet_gateway.my_igw.id
   }
-
   tags = {
-    Name    = "Public route table"
-    Project = "Athoria"
+    Name = "Public route table"
   }
 }
 
 resource "aws_route_table" "private_route_table" {
   vpc_id = var.vpc_id
-
   route {
     cidr_block     = "0.0.0.0/0"
     nat_gateway_id = aws_nat_gateway.my_nat.id
   }
-
   tags = {
-    Name    = "Private route table"
-    Project = "Athoria"
+    Name = "Private route table"
   }
 }
 
@@ -147,10 +130,8 @@ resource "aws_lb" "my_lb" {
   subnets                    = var.public_subnet_ids
   security_groups            = var.lb_security_group_ids
   enable_deletion_protection = false
-
   tags = {
-    Name    = "My Load Balancer"
-    Project = "Athoria"
+    Name = "My Load Balancer"
   }
 }
 
@@ -159,10 +140,8 @@ resource "aws_lb_target_group" "lb_http_target_group" {
   name     = "my-http-target-group"
   protocol = "HTTP"
   port     = 80
-
   tags = {
-    Name    = "My HTTP Target Group"
-    Project = "Athoria"
+    Name = "My HTTP Target Group"
   }
 }
 
@@ -171,10 +150,8 @@ resource "aws_lb_target_group" "lb_https_target_group" {
   name     = "my-https-target-group"
   protocol = "HTTPS"
   port     = 443
-
   tags = {
-    Name    = "My HTTPS Target Group"
-    Project = "Athoria"
+    Name = "My HTTPS Target Group"
   }
 }
 
