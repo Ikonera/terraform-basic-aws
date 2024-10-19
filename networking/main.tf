@@ -6,17 +6,19 @@ resource "aws_internet_gateway" "my_igw" {
 }
 
 resource "aws_eip" "my_eip" {
+  count      = length(var.private_subnet_ids)
   depends_on = [aws_internet_gateway.my_igw]
   tags = {
-    Name = "My EIP"
+    Name = "Elastic IP ${count.index + 1}"
   }
 }
 
 resource "aws_nat_gateway" "my_nat" {
-  allocation_id = aws_eip.my_eip.id
-  subnet_id     = var.public_subnet_ids[0]
+  count         = length(var.public_subnet_ids)
+  allocation_id = element(aws_eip.my_eip.*.id, count.index)
+  subnet_id     = element(var.public_subnet_ids, count.index)
   tags = {
-    Name = "My NAT Gateway"
+    Name = "NAT Gateway ${count.index + 1}"
   }
   depends_on = [aws_internet_gateway.my_igw]
 }
