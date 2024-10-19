@@ -1,8 +1,3 @@
-resource "aws_vpc" "my_vpc" {
-  cidr_block = var.vpc_cidr
-  tags       = var.tags
-}
-
 resource "aws_subnet" "public_subnet" {
   count             = var.public_subnet_count
   vpc_id            = aws_vpc.my_vpc.id
@@ -22,3 +17,4 @@ resource "aws_subnet" "private_subnet" {
     Name = "Private subnet ${count.index + 1}"
   }
 }
+
