@@ -4,9 +4,9 @@
 
 Run a simple infrastructure on AWS using Terraform and reach NGinx servers through a load balancer.
 
-<center>
+<div align="center">
   <img src="./athoria-infra-aws.drawio.png" alt="Athoria Infra AWS" width="55%"/>
-</center>
+</div>
 
 - Purple: Networking module
 - Orange: Computing module
