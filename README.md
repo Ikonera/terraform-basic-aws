@@ -10,6 +10,7 @@ Run a simple infrastructure on AWS using Terraform and reach NGinx servers throu
 
 - Purple: Networking module
 - Orange: Computing module
+- The rest: VPC module
 
 ## Notes
 
