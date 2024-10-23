@@ -1,1 +1,7 @@
-# TODO: a CI/CD pipeline for the project
+include:
+  - component: $CI_SERVER_FQDN/components/opentofu/full-pipeline@0.30.0
+    inputs:
+      version: 0.30.0
+      opentofu_version: 1.8.3
+
+stages: [validate, test, build, deploy, cleanup]
