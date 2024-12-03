@@ -22,3 +22,26 @@ resource "aws_nat_gateway" "my_nat" {
   }
   depends_on = [aws_internet_gateway.my_igw]
 }
+
+module "route53" {
+  source  = "terraform-aws-modules/route53/aws"
+  version = "4.1.0"
+}
+
+module "zones" {
+  source  = "terraform-aws-modules/route53/aws//modules/zones"
+  version = "~> 3.0"
+
+  zones = {
+    "nginx-tf.ikonera.dev" = {
+      comment = "NGinx private servers"
+      tags = {
+        environment = "main"
+      }
+    }
+  }
+
+  tags = {
+    Name = "My Route 53 Zone"
+  }
+}
