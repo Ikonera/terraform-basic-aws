@@ -38,6 +38,6 @@ variable "tags" {
   description = "The tags to apply to the resources"
   type        = map(string)
   default = {
-    Project = "Athoria"
+    Project = "terraform-basic-aws"
   }
 }
